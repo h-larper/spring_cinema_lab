@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/movies")
@@ -25,13 +26,15 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getMovies() {
-        return new ResponseEntity<>("See all movies within database", HttpStatus.OK);
+    public ResponseEntity<List<Movie>> getMovies() {
+        List<Movie> allMovies = movieService.getAllMovies();
+        return new ResponseEntity<>(allMovies, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<String> getSpecificMovie(@PathVariable long id) {
-        return new ResponseEntity<>("See selected movie", HttpStatus.OK);
+    public ResponseEntity<Movie> getSpecificMovie(@PathVariable long id) {
+        Movie specificMovie = movieService.getSpecificMovieById(id);
+        return new ResponseEntity<>(specificMovie, HttpStatus.OK);
     }
 
 }
